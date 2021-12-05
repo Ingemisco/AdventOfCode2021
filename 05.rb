@@ -10,26 +10,17 @@ def part01(lines)
     points.default = 0
 
     lines.each do |x|
-        if x[:sx] == x[:tx]
-            if x[:sy] <= x[:ty]
-                (x[:sy]..x[:ty]).each do |i|
-                    points[[x[:sx], i]] += 1
-                end
-            else
-                (x[:ty]..x[:sy]).each do |i|
-                    points[[x[:sx], i]] += 1
-                end
-            end
-            
-        elsif x[:sy] == x[:ty]
-            if x[:sx] <= x[:tx]
-                (x[:sx]..x[:tx]).each do |i|
-                    points[[i, x[:sy]] ] += 1
-                end
-            else
-                (x[:tx]..x[:sx]).each do |i|
-                    points[[i, x[:sy]] ] += 1
-                end
+        if x[:sx] == x[:tx] or x[:sy] == x[:ty]
+            dx = (x[:tx] - x[:sx]) <=> 0
+            dy = (x[:ty] - x[:sy]) <=> 0
+
+            posx = x[:sx]
+            posy = x[:sy]
+            points[[posx, posy]] += 1
+            until posx == x[:tx] and posy == x[:ty]
+                posx += dx
+                posy += dy
+                points[[posx, posy]] += 1
             end
         end
     end
@@ -43,4 +34,31 @@ def part01(lines)
     puts(overlap)
 end
 
+def part02(lines)
+    points = Hash.new
+    points.default = 0
+
+    lines.each do |x|
+        dx = (x[:tx] - x[:sx]) <=> 0
+        dy = (x[:ty] - x[:sy]) <=> 0
+
+        posx = x[:sx]
+        posy = x[:sy]
+        points[[posx, posy]] += 1
+        until posx == x[:tx] and posy == x[:ty]
+            posx += dx
+            posy += dy
+            points[[posx, posy]] += 1
+        end
+    end
+    
+    overlap = 0
+    points.each_value do |i|
+        overlap += 1 if i >= 2
+    end 
+
+    puts(overlap)
+end
+
 part01(lines)
+part02(lines)
