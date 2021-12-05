@@ -78,8 +78,27 @@ def part01(lines)
 end
 
 def part02(lines)
+    numbers = lines[0].split(",").map(&:to_i)
+
+    bingos = []
+    
+    lines[1...lines.length].each do |field|
+        bingos << Bingo.new(field)
+    end
+    
+    min = {round: :inf}
+    
+    bingos.each do |bingo|
+        temp = bingo.num_to_end(numbers)
+        if min[:round] == :inf or temp[:round] > min[:round]
+            min = temp
+        end
+    end
+
+    puts(min[:val])
 
 end
 
 
 part01(lines)
+part02(lines)
