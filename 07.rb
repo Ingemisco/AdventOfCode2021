@@ -6,12 +6,12 @@ def part01(nums)
 end
 
 def part02(nums)
-    min = nums[nums.length - 1] * nums.length* nums.length
-    (0..(nums[nums.length-1] - nums[0]).abs).each do |m|
-        value = nums.map {|n| (n - m).abs * ((n - m).abs + 1) / 2  }.sum
-        min = value if value < min
+    values = []
+    (-5..5).each do |k|
+        m = mean = (nums.sum / nums.length).floor + k
+        values << nums.map {|n| (n - m).abs * ((n - m).abs + 1) / 2  }.sum
     end
-    puts min
+    puts values.min
 end
 
 part01(nums)
